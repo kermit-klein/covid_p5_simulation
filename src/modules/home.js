@@ -1,7 +1,3 @@
-function preload() {
-  homeImg = loadImage("../home_icon.png");
-}
-
 class Home {
   constructor() {
     let x = random(210, windowWidth - 10);
@@ -17,3 +13,5 @@ class Home {
     image(homeImg, x - 5, y - 5, 10, 10);
   }
 }
+
+export default Home;
