@@ -20,6 +20,25 @@ class Person {
   isHealthy() {
     return this.infectedAt === null;
   }
+  move() {
+    if (this.isIll()) {
+      if (this.pos.y > 50) {
+        const x = random(0, windowWidth);
+        const y = random(0, 50);
+        this.pos = new p5.Vector(x, y);
+      } else {
+        this.angle.rotate((random(-1, 1) * PI) / 10);
+        this.pos.add(this.angle);
+      }
+    } else if (SOCIAL_DISTANCING_TIME <= time) {
+      const home = this.getClosestHome();
+      this.angle = home.pos.copy().sub(this.pos).normalize();
+      this.pos.add(this.angle);
+    } else {
+      this.angle.rotate((random(-1, 1) * PI) / 10);
+      this.pos.add(this.angle);
+    }
+  }
 }
 
 export default Person;
