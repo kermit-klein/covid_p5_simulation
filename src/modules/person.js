@@ -38,6 +38,15 @@ class Person {
       this.angle.rotate((random(-1, 1) * PI) / 10);
       this.pos.add(this.angle);
     }
+    this.limitPosition();
+  }
+  limitPosition() {
+    const minY = this.isIll ? 0 : 55;
+    const maxY = this.isIll ? 45 : windowHeight;
+    this.pos.x = max(200, this.pos.x);
+    this.pos.y = max(minY, this.pos.y);
+    this.pos.x = min(windowWidth, this.pos.x);
+    this.pos.y = min(maxY, this.pos.y);
   }
 }
 
