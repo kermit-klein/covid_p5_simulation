@@ -4,22 +4,34 @@ class Person {
       random() * (windowWidth - 200) + 200,
       random() * windowHeight
     );
+
     this.angle = new p5.Vector(random(), random()).normalize();
     this.infectedAt = null;
+
     if (isInfected) {
       this.infectedAt = 0;
       this.pos = new p5.Vector(windowWidth / 2, windowHeight / 2);
     }
   }
+
   isInfected() {
     return this.infectedAt !== null;
   }
+
   isIll() {
-    return this.infectedAt() && this.infectedAt + INCUBATION_PERIOD < time;
+    return this.isInfected() && this.infectedAt + INCUBATION_PERIOD < time;
   }
+
   isHealthy() {
     return this.infectedAt === null;
   }
+
+  update() {
+    this.move();
+    this.checkIfInfected();
+    this.draw();
+  }
+
   move() {
     if (this.isIll()) {
       if (this.pos.y > 50) {
@@ -40,18 +52,21 @@ class Person {
     }
     this.limitPosition();
   }
+
   limitPosition() {
-    const minY = this.isIll ? 0 : 55;
-    const maxY = this.isIll ? 45 : windowHeight;
+    const minY = this.isIll() ? 0 : 55;
+    const maxY = this.isIll() ? 45 : windowHeight;
     this.pos.x = max(200, this.pos.x);
     this.pos.y = max(minY, this.pos.y);
     this.pos.x = min(windowWidth, this.pos.x);
     this.pos.y = min(maxY, this.pos.y);
   }
+
   checkIfInfected() {
     if (this.isInfected()) {
       return;
     }
+
     persons.forEach((person) => {
       if (this === person || !person.isInfected()) {
         return;
@@ -61,6 +76,7 @@ class Person {
       }
     });
   }
+
   draw() {
     const x = Math.floor(this.pos.x);
     const y = Math.floor(this.pos.y);
@@ -78,6 +94,7 @@ class Person {
     }
     ellipse(x, y, 2);
   }
+
   getClosestHome() {
     let closest = null;
     let dist = 99999;
