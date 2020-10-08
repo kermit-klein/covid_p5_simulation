@@ -78,6 +78,18 @@ class Person {
     }
     ellipse(x, y, 2);
   }
+  getClosestHome() {
+    let closest = null;
+    let dist = 99999;
+    homes.forEach((home) => {
+      if (this.pos.dist(home.pos) < dist) {
+        dist = this.pos.dist(home.pos);
+        closest = home;
+      }
+    });
+
+    return closest;
+  }
 }
 
 export default Person;
