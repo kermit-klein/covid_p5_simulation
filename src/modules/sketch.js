@@ -41,3 +41,8 @@ function draw() {
   homes.forEach((home) => home.draw());
   drawStats();
 }
+
+function drawHospital() {
+  fill(color(30, 180, 22, 50));
+  rect(0, 0, windowWidth, 50);
+}
