@@ -46,3 +46,24 @@ function drawHospital() {
   fill(color(30, 180, 22, 50));
   rect(0, 0, windowWidth, 50);
 }
+
+function createInputs() {
+  createElement("h2", "Covid-19").position(50, 0);
+  createElement("h3", "Simulator").position(60, 30);
+
+  createElement("p", "Number of people").position(10, 70);
+  let nOfPeopleInp = createInput(numberOfPeople);
+  nOfPeopleInp.position(10, 110);
+
+  createElement("p", "Social Distancing at day").position(10, 120);
+  let sd_time = createInput(SOCIAL_DISTANCING_TIME);
+  sd_time.position(10, 155);
+
+  button = createButton("Start simulation");
+  button.position(10, 180);
+  button.mousePressed(() => {
+    SOCIAL_DISTANCING_TIME = sd_time.value();
+    numberOfPeople = nOfPeopleInp.value();
+    setup();
+  });
+}
