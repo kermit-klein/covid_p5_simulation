@@ -31,3 +31,13 @@ function setup() {
     homes.push(new Home());
   }
 }
+
+function draw() {
+  background(220);
+  totalSeconds += deltaTime;
+  time = Math.floor(totalSeconds / (60 * 60));
+  drawHospital();
+  persons.forEach((person) => person.update());
+  homes.forEach((home) => home.draw());
+  drawStats();
+}
