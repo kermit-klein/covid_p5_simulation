@@ -67,3 +67,30 @@ function createInputs() {
     setup();
   });
 }
+
+function drawStats() {
+  fill(color(256, 256, 256));
+  rect(0, 0, 200, windowHeight);
+
+  fill(50);
+
+  textSize(18);
+  let s = `Current Simulation`;
+  text(s, 10, 220, 190, 50);
+
+  textSize(12);
+  s = `People: ${persons.length}`;
+  text(s, 10, 240, 150, 50);
+
+  const infectedPeople = persons.filter((p) => p.isInfected()).length;
+  s = `Infected: ${infectedPeople} (${Math.floor(
+    (infectedPeople / persons.length) * 100
+  )}%)`;
+  text(s, 10, 255, 150, 50);
+
+  s = `Cases: ${persons.filter((p) => p.isIll()).length}`;
+  text(s, 10, 270, 150, 50);
+
+  s = `Day: ${time}`;
+  text(s, 10, 285, 150, 50);
+}
