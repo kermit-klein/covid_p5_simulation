@@ -1,3 +1,6 @@
+import Home from "./home";
+import Person from "./person";
+
 let homeImg;
 function preload() {
   homeImg = loadImage("../home_icon.png");
@@ -94,3 +97,5 @@ function drawStats() {
   s = `Day: ${time}`;
   text(s, 10, 285, 150, 50);
 }
+
+export { setup, draw };

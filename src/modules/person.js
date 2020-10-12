@@ -1,3 +1,6 @@
+const CONTAMINATION_RADIUS = 1;
+const INCUBATION_PERIOD = 2;
+
 class Person {
   constructor(isInfected = false) {
     this.pos = new p5.Vector(
