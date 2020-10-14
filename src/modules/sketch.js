@@ -18,7 +18,7 @@ let time = 0;
 function setup(p5) {
   p5.createCanvas(p5.windowWidth, p5.windowHeight);
   p5.createElement("h3", "Hospital").position(p5.windowWidth / 2 + 50, 0);
-  createInputs();
+  createInputs(p5);
 
   persons = [];
   homes = [];
@@ -26,10 +26,10 @@ function setup(p5) {
 
   for (let i = 0; i < numberOfPeople; i++) {
     const isInfected = i < INITIAL_INFECTED_PEOPLE;
-    persons.push(new Person(isInfected));
+    persons.push(new Person(p5,isInfected));
   }
   for (let i = 0; i < numberOfPeople / 5; i++) {
-    homes.push(new Home());
+    homes.push(new Home(p5));
   }
 }
 
@@ -38,8 +38,8 @@ function draw(p5) {
   totalSeconds += p5.deltaTime;
   time = Math.floor(totalSeconds / (60 * 60));
   drawHospital(p5);
-  persons.forEach((person) => person.update());
-  homes.forEach((home) => home.draw());
+  persons.forEach((person) => person.update(p5));
+  homes.forEach((home) => home.draw(p5));
   drawStats(p5);
 }
 
@@ -96,4 +96,4 @@ function drawStats(p5) {
   p5.text(s, 10, 285, 150, 50);
 }
 
-export { setup, draw };
+export { setup, draw,time,SOCIAL_DISTANCING_TIME,persons,homes,homeImg };

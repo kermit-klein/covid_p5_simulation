@@ -1,19 +1,21 @@
-const CONTAMINATION_RADIUS = 1;
+import {time,SOCIAL_DISTANCING_TIME,persons,homes} from "./sketch"
+const CONTAMINATION_RADIUS = 10;
 const INCUBATION_PERIOD = 2;
 
 class Person {
-  constructor(isInfected = false) {
-    this.pos = new p5.Vector(
-      random() * (windowWidth - 200) + 200,
-      random() * windowHeight
+  constructor(p5,isInfected = false) {
+      debugger
+    this.pos = new p5.createVector(
+      p5.random() * (p5.windowWidth - 200) + 200,
+      p5.random() * p5.windowHeight
     );
 
-    this.angle = new p5.Vector(random(), random()).normalize();
+    this.angle = new p5.createVector(p5.random(), p5.random()).normalize();
     this.infectedAt = null;
 
     if (isInfected) {
       this.infectedAt = 0;
-      this.pos = new p5.Vector(windowWidth / 2, windowHeight / 2);
+      this.pos = new p5.createVector(p5.windowWidth / 2, p5.windowHeight / 2);
     }
   }
 
@@ -29,20 +31,20 @@ class Person {
     return this.infectedAt === null;
   }
 
-  update() {
-    this.move();
+  update(p5) {
+    this.move(p5);
     this.checkIfInfected();
-    this.draw();
+    this.draw(p5);
   }
 
-  move() {
+  move(p5) {
     if (this.isIll()) {
       if (this.pos.y > 50) {
-        const x = random(0, windowWidth);
-        const y = random(0, 50);
-        this.pos = new p5.Vector(x, y);
+        const x = p5.random(0, p5.windowWidth);
+        const y = p5.random(0, 50);
+        this.pos = new p5.createVector(x, y);
       } else {
-        this.angle.rotate((random(-1, 1) * PI) / 10);
+        this.angle.rotate((p5.random(-1, 1) * p5.PI) / 10);
         this.pos.add(this.angle);
       }
     } else if (SOCIAL_DISTANCING_TIME <= time) {
@@ -50,19 +52,19 @@ class Person {
       this.angle = home.pos.copy().sub(this.pos).normalize();
       this.pos.add(this.angle);
     } else {
-      this.angle.rotate((random(-1, 1) * PI) / 10);
+      this.angle.rotate((p5.random(-1, 1) * p5.PI) / 10);
       this.pos.add(this.angle);
     }
-    this.limitPosition();
+    this.limitPosition(p5);
   }
 
-  limitPosition() {
+  limitPosition(p5) {
     const minY = this.isIll() ? 0 : 55;
-    const maxY = this.isIll() ? 45 : windowHeight;
-    this.pos.x = max(200, this.pos.x);
-    this.pos.y = max(minY, this.pos.y);
-    this.pos.x = min(windowWidth, this.pos.x);
-    this.pos.y = min(maxY, this.pos.y);
+    const maxY = this.isIll() ? 45 : p5.windowHeight;
+    this.pos.x = p5.max(200, this.pos.x);
+    this.pos.y = p5.max(minY, this.pos.y);
+    this.pos.x = p5.min(p5.windowWidth, this.pos.x);
+    this.pos.y = p5.min(maxY, this.pos.y);
   }
 
   checkIfInfected() {
@@ -80,22 +82,22 @@ class Person {
     });
   }
 
-  draw() {
+  draw(p5) {
     const x = Math.floor(this.pos.x);
     const y = Math.floor(this.pos.y);
-    noStroke();
+    p5.noStroke();
     if (this.isIll()) {
-      fill(color(255, 0, 0, 50));
-      ellipse(x, y, CONTAMINATION_RADIUS);
-      fill(color("red"));
+      p5.fill(p5.color(255, 0, 0, 50));
+      p5.ellipse(x, y, CONTAMINATION_RADIUS);
+      p5.fill(p5.color("red"));
     } else if (this.isInfected()) {
-      fill(color(255, 165, 0, 50));
-      ellipse(x, y, CONTAMINATION_RADIUS);
-      fill(color(255, 165, 0));
+      p5.fill(p5.color(255, 165, 0, 50));
+      p5.ellipse(x, y, CONTAMINATION_RADIUS);
+      p5.fill(p5.color(255, 165, 0));
     } else {
-      fill(color("green"));
+      p5.fill(p5.color("green"));
     }
-    ellipse(x, y, 2);
+    p5.ellipse(x, y, 2);
   }
 
   getClosestHome() {
