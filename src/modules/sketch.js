@@ -2,13 +2,11 @@ import Home from "./home";
 import Person from "./person";
 
 let homeImg;
-function preload() {
-  homeImg = loadImage("../home_icon.png");
+function preload(p5) {
+  homeImg = p5.loadImage("../home_icon.png");
 }
 
 const INITIAL_INFECTED_PEOPLE = 1;
-const CONTAMINATION_RADIUS = 1;
-const INCUBATION_PERIOD = 2;
 let SOCIAL_DISTANCING_TIME = 5;
 let numberOfPeople = 1000;
 
@@ -17,9 +15,9 @@ let persons = [];
 let totalSeconds = 0;
 let time = 0;
 
-function setup() {
-  createCanvas(windowWidth, windowHeight);
-  createElement("h3", "Hospital").position(windowWidth / 2 + 50, 0);
+function setup(p5) {
+  p5.createCanvas(p5.windowWidth, p5.windowHeight);
+  p5.createElement("h3", "Hospital").position(p5.windowWidth / 2 + 50, 0);
   createInputs();
 
   persons = [];
@@ -35,67 +33,67 @@ function setup() {
   }
 }
 
-function draw() {
-  background(220);
-  totalSeconds += deltaTime;
+function draw(p5) {
+  p5.background(220);
+  totalSeconds += p5.deltaTime;
   time = Math.floor(totalSeconds / (60 * 60));
-  drawHospital();
+  drawHospital(p5);
   persons.forEach((person) => person.update());
   homes.forEach((home) => home.draw());
-  drawStats();
+  drawStats(p5);
 }
 
-function drawHospital() {
-  fill(color(30, 180, 22, 50));
-  rect(0, 0, windowWidth, 50);
+function drawHospital(p5) {
+  p5.fill(p5.color(30, 180, 22, 50));
+  p5.rect(0, 0, p5.windowWidth, 50);
 }
 
-function createInputs() {
-  createElement("h2", "Covid-19").position(50, 0);
-  createElement("h3", "Simulator").position(60, 30);
+function createInputs(p5) {
+  p5.createElement("h2", "Covid-19").position(50, 0);
+  p5.createElement("h3", "Simulator").position(60, 30);
 
-  createElement("p", "Number of people").position(10, 70);
-  let nOfPeopleInp = createInput(numberOfPeople);
+  p5.createElement("p", "Number of people").position(10, 70);
+  let nOfPeopleInp = p5.createInput(numberOfPeople);
   nOfPeopleInp.position(10, 110);
 
-  createElement("p", "Social Distancing at day").position(10, 120);
-  let sd_time = createInput(SOCIAL_DISTANCING_TIME);
+  p5.createElement("p", "Social Distancing at day").position(10, 120);
+  let sd_time = p5.createInput(SOCIAL_DISTANCING_TIME);
   sd_time.position(10, 155);
 
-  button = createButton("Start simulation");
+  let button = p5.createButton("Start simulation");
   button.position(10, 180);
   button.mousePressed(() => {
     SOCIAL_DISTANCING_TIME = sd_time.value();
     numberOfPeople = nOfPeopleInp.value();
-    setup();
+    setup(p5);
   });
 }
 
-function drawStats() {
-  fill(color(256, 256, 256));
-  rect(0, 0, 200, windowHeight);
+function drawStats(p5) {
+  p5.fill(p5.color(256, 256, 256));
+  p5.rect(0, 0, 200, p5.windowHeight);
 
-  fill(50);
+  p5.fill(50);
 
-  textSize(18);
+  p5.textSize(18);
   let s = `Current Simulation`;
-  text(s, 10, 220, 190, 50);
+  p5.text(s, 10, 220, 190, 50);
 
-  textSize(12);
+  p5.textSize(12);
   s = `People: ${persons.length}`;
-  text(s, 10, 240, 150, 50);
+  p5.text(s, 10, 240, 150, 50);
 
   const infectedPeople = persons.filter((p) => p.isInfected()).length;
   s = `Infected: ${infectedPeople} (${Math.floor(
     (infectedPeople / persons.length) * 100
   )}%)`;
-  text(s, 10, 255, 150, 50);
+  p5.text(s, 10, 255, 150, 50);
 
   s = `Cases: ${persons.filter((p) => p.isIll()).length}`;
-  text(s, 10, 270, 150, 50);
+  p5.text(s, 10, 270, 150, 50);
 
   s = `Day: ${time}`;
-  text(s, 10, 285, 150, 50);
+  p5.text(s, 10, 285, 150, 50);
 }
 
 export { setup, draw };

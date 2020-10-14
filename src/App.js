@@ -6,7 +6,7 @@ import { setup, draw } from "./modules/sketch";
 function App() {
   return (
     <div className="App">
-      <Sketch></Sketch>
+      <Sketch setup={setup} draw={draw}></Sketch>
     </div>
   );
 }

@@ -1,7 +1,7 @@
 class Home {
-  constructor() {
-    let x = random(210, windowWidth - 10);
-    let y = random(60, windowHeight - 10);
+  constructor(p5) {
+    let x = p5.random(210, p5.windowWidth - 10);
+    let y = p5.random(60, p5.windowHeight - 10);
     this.pos = new p5.Vector(x, y);
   }
 
