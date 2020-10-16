@@ -69,6 +69,14 @@ function createInputs(p5) {
     numberOfPeople = nOfPeopleInp.value();
     setup(p5);
   });
+  let pauseButton = p5.createButton("Hold down to pause")
+  pauseButton.position(10,205)
+  pauseButton.mousePressed(()=>{
+    p5.noLoop()
+  })
+  pauseButton.mouseReleased(()=>{
+    p5.loop()
+  })
 }
 
 function drawStats(p5) {
@@ -79,23 +87,23 @@ function drawStats(p5) {
 
   p5.textSize(18);
   let s = `Current Simulation`;
-  p5.text(s, 10, 220, 190, 50);
+  p5.text(s, 10, 240, 190, 50);
 
   p5.textSize(12);
   s = `People: ${persons.length}`;
-  p5.text(s, 10, 240, 150, 50);
+  p5.text(s, 10, 260, 150, 50);
 
   const infectedPeople = persons.filter((p) => p.isInfected()).length;
   s = `Infected: ${infectedPeople} (${Math.floor(
     (infectedPeople / persons.length) * 100
   )}%)`;
-  p5.text(s, 10, 255, 150, 50);
+  p5.text(s, 10, 275, 150, 50);
 
   s = `Cases: ${persons.filter((p) => p.isIll()).length}`;
-  p5.text(s, 10, 270, 150, 50);
+  p5.text(s, 10, 290, 150, 50);
 
   s = `Day: ${time}`;
-  p5.text(s, 10, 285, 150, 50);
+  p5.text(s, 10, 305, 150, 50);
 }
 
 export { setup, draw,time,social_distance_time,persons,homes,homeImg,preload };
