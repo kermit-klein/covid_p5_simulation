@@ -1,8 +1,6 @@
 import Home from "./home";
 import Person from "./person";
 
-
-
 const initial_infected_number = 1;
 let social_distance_time = 5;
 let numberOfPeople = 1000;
@@ -35,8 +33,6 @@ function setup(p5) {
   for (let i = 0; i < numberOfPeople / 5; i++) {
     homes.push(new Home(p5));
   }
-
-
 }
 
 function draw(p5) {
@@ -62,7 +58,7 @@ function createInputs(p5) {
   let nOfPeopleInp = p5.createInput(numberOfPeople);
   nOfPeopleInp.position(10, 110);
 
-  p5.createElement("p", "Social Distancing at day").position(10, 120);
+  p5.createElement("p", "Social distance at day").position(10, 120);
   let sd_time = p5.createInput(social_distance_time);
   sd_time.position(10, 155);
 

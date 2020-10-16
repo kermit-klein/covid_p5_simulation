@@ -12,7 +12,7 @@ class Home {
     const x = Math.floor(this.pos.x);
     const y = Math.floor(this.pos.y);
     p5.ellipse(x, y, 15);
-    p5.image(homeImg, x -8 , y-8 , 17, 17);
+    p5.image(homeImg, x-8 , y-8 , 17, 17);
   }
 }
 
