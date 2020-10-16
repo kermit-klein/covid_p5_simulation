@@ -12,12 +12,10 @@ let time = 0;
 
 let homeImg;
 function preload(p5) {
-debugger
   homeImg = p5.loadImage("./home_icon.png");
 }
 
 function setup(p5) {
-
   p5.createCanvas(p5.windowWidth, p5.windowHeight);
   p5.createElement("h3", "Hospital").position(p5.windowWidth / 2 + 50, 0);
   createInputs(p5);
@@ -37,8 +35,9 @@ function setup(p5) {
 
 function draw(p5) {
   p5.background(220);
-  totalSeconds += p5.deltaTime;
+  totalSeconds += p5.deltaTime*p5.frameRate()/20;
   time = Math.floor(totalSeconds / (60 * 60));
+  console.log(p5.frameRate()/20)
   drawHospital(p5);
   persons.forEach((person) => person.update(p5));
   homes.forEach((home) => home.draw(p5));
