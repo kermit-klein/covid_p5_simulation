@@ -1,13 +1,10 @@
 import Home from "./home";
 import Person from "./person";
 
-let homeImg;
-function preload(p5) {
-  homeImg = p5.loadImage("../home_icon.png");
-}
 
-const INITIAL_INFECTED_PEOPLE = 1;
-let SOCIAL_DISTANCING_TIME = 5;
+
+const initial_infected_number = 1;
+let social_distance_time = 5;
 let numberOfPeople = 1000;
 
 let homes = [];
@@ -15,7 +12,14 @@ let persons = [];
 let totalSeconds = 0;
 let time = 0;
 
+let homeImg;
+function preload(p5) {
+debugger
+  homeImg = p5.loadImage("./home_icon.png");
+}
+
 function setup(p5) {
+
   p5.createCanvas(p5.windowWidth, p5.windowHeight);
   p5.createElement("h3", "Hospital").position(p5.windowWidth / 2 + 50, 0);
   createInputs(p5);
@@ -25,12 +29,14 @@ function setup(p5) {
   totalSeconds = 0;
 
   for (let i = 0; i < numberOfPeople; i++) {
-    const isInfected = i < INITIAL_INFECTED_PEOPLE;
+    const isInfected = i < initial_infected_number;
     persons.push(new Person(p5,isInfected));
   }
   for (let i = 0; i < numberOfPeople / 5; i++) {
     homes.push(new Home(p5));
   }
+
+
 }
 
 function draw(p5) {
@@ -57,13 +63,13 @@ function createInputs(p5) {
   nOfPeopleInp.position(10, 110);
 
   p5.createElement("p", "Social Distancing at day").position(10, 120);
-  let sd_time = p5.createInput(SOCIAL_DISTANCING_TIME);
+  let sd_time = p5.createInput(social_distance_time);
   sd_time.position(10, 155);
 
   let button = p5.createButton("Start simulation");
   button.position(10, 180);
   button.mousePressed(() => {
-    SOCIAL_DISTANCING_TIME = sd_time.value();
+    social_distance_time = sd_time.value();
     numberOfPeople = nOfPeopleInp.value();
     setup(p5);
   });
@@ -96,4 +102,4 @@ function drawStats(p5) {
   p5.text(s, 10, 285, 150, 50);
 }
 
-export { setup, draw,time,SOCIAL_DISTANCING_TIME,persons,homes,homeImg };
+export { setup, draw,time,social_distance_time,persons,homes,homeImg,preload };

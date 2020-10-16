@@ -1,16 +1,15 @@
-import {time,SOCIAL_DISTANCING_TIME,persons,homes} from "./sketch"
-const CONTAMINATION_RADIUS = 10;
-const INCUBATION_PERIOD = 2;
+import {time,social_distance_time,persons,homes} from "./sketch"
+const cont_radius = 10;
+const incubation_time = 2;
 
 class Person {
   constructor(p5,isInfected = false) {
-      debugger
-    this.pos = new p5.createVector(
+      this.pos =  new p5.createVector(
       p5.random() * (p5.windowWidth - 200) + 200,
       p5.random() * p5.windowHeight
     );
 
-    this.angle = new p5.createVector(p5.random(), p5.random()).normalize();
+    this.angle = new p5.createVector(p5.random(), p5.random());
     this.infectedAt = null;
 
     if (isInfected) {
@@ -24,7 +23,7 @@ class Person {
   }
 
   isIll() {
-    return this.isInfected() && this.infectedAt + INCUBATION_PERIOD < time;
+    return this.isInfected() && this.infectedAt + incubation_time < time;
   }
 
   isHealthy() {
@@ -34,7 +33,7 @@ class Person {
   update(p5) {
     this.move(p5);
     this.checkIfInfected();
-    this.draw(p5);
+    this.draw(p5)
   }
 
   move(p5) {
@@ -47,12 +46,12 @@ class Person {
         this.angle.rotate((p5.random(-1, 1) * p5.PI) / 10);
         this.pos.add(this.angle);
       }
-    } else if (SOCIAL_DISTANCING_TIME <= time) {
+    } else if (social_distance_time <= time) {
       const home = this.getClosestHome();
       this.angle = home.pos.copy().sub(this.pos).normalize();
       this.pos.add(this.angle);
     } else {
-      this.angle.rotate((p5.random(-1, 1) * p5.PI) / 10);
+      this.angle.rotate((p5.random(-1, 1) * p5.PI/10));
       this.pos.add(this.angle);
     }
     this.limitPosition(p5);
@@ -76,7 +75,7 @@ class Person {
       if (this === person || !person.isInfected()) {
         return;
       }
-      if (this.pos.dist(person.pos) < CONTAMINATION_RADIUS) {
+      if (this.pos.dist(person.pos) < cont_radius) {
         this.infectedAt = time;
       }
     });
@@ -88,16 +87,16 @@ class Person {
     p5.noStroke();
     if (this.isIll()) {
       p5.fill(p5.color(255, 0, 0, 50));
-      p5.ellipse(x, y, CONTAMINATION_RADIUS);
+      p5.ellipse(x, y, cont_radius);
       p5.fill(p5.color("red"));
     } else if (this.isInfected()) {
-      p5.fill(p5.color(255, 165, 0, 50));
-      p5.ellipse(x, y, CONTAMINATION_RADIUS);
+      p5.fill(p5.color(255, 165, 0, 150));
+      p5.ellipse(x, y, cont_radius);
       p5.fill(p5.color(255, 165, 0));
     } else {
       p5.fill(p5.color("green"));
     }
-    p5.ellipse(x, y, 2);
+    p5.ellipse(x, y, 3);
   }
 
   getClosestHome() {
